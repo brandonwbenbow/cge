@@ -1,4 +1,4 @@
-import Engine from './engine.js'
+import Engine from '../engine/engine.js'
 
 const Canvas = new Engine({
     width: window.innerWidth,
