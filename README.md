@@ -1,4 +1,4 @@
-# CGE | Canvas Game Engine - Simplified Interaction with Canvas
+# CGE | Canvas Game Engine - Simplified Canvas Interaction
 
 CGE is a simpler way to interface with the regular HTML5 Canvas, with easy access to changing game loops, best practicies for modern browsers, and features that apply to any game.
 
