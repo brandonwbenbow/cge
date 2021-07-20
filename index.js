@@ -3,14 +3,25 @@ var fs = require('fs');
 var path = require('path');
 
 http.createServer(function (request, response) {
-    //console.log('request starting...');
+
+    // This mostly works, need to incorporate more path library stuff
+    let key = request.url.split('/')[1];
 
     var filePath = './public' + request.url;
-    console.log(filePath);
-    if (filePath == './public/')
-        filePath = './public/index.html';
+    
+    if(key == "root")
+    {
+        filePath = "./";
+        let path = request.url.split('/');
+        path.splice(1, 1);
+        filePath += path.join('/');
+    }
+
+    if (filePath.substring(filePath.length - 1) == '/')
+        filePath += 'index.html';
 
     var extname = path.extname(filePath);
+    //console.log(filePath, extname)
     var contentType = 'text/html';
     switch (extname) {
         case '.js':
@@ -36,15 +47,25 @@ http.createServer(function (request, response) {
     fs.readFile(filePath, function(error, content) {
         if (error) {
             if(error.code == 'ENOENT'){
-                fs.readFile('./public/404.html', function(error, content) {
+                fs.readFile('./public/404.html', (error, content) => {
                     response.writeHead(200, { 'Content-Type': contentType });
                     response.end(content, 'utf-8');
                 });
             }
             else {
-                response.writeHead(500);
-                response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
-                response.end(); 
+                if(filePath.substring(filePath.length - 1) != "/")
+                {
+                    fs.readFile(filePath + "/index.html", (error, content) => {
+                        response.writeHead(200, { 'Content-Type': contentType });
+                        response.end(content, 'utf-8');
+                    });
+                }
+                else
+                {
+                    response.writeHead(500);
+                    response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+                    response.end(); 
+                }
             }
         }
         else {

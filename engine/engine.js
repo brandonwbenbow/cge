@@ -1,4 +1,4 @@
-class Engine {
+export default class Engine {
     constructor(params) {
         this.width = params.width || 600,
         this.height = params.height || 400,
@@ -85,7 +85,4 @@ class Engine {
         this.tick(); 
         this.manageTick();
     }
-
 }
-
-export default Engine;
